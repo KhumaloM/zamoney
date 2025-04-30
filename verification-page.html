@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZAMONEY Platform - Verification</title>
+    <style>
+        /* Global Styles */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .header h1 {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .section {
+            background-color: #fff;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .section-title {
+            font-size: 20px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        /* Navigation */
+        .nav {
+            background-color: #4f46e5;
+            border-radius: 5px;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        
+        .nav a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 16px;
+        }
+        
+        .nav a.active {
+            font-weight: bold;
+        }
+        
+        /* Sidebar */
+        .sidebar {
+            width: 200px;
+            background-color: #f1f5f9;
+            border-radius: 5px;
+            padding: 20px;
+        }
+        
+        .sidebar-item {
+            padding: 10px 0;
+            border-bottom: 2px solid #ddd;
+        }
+        
+        .sidebar-item.active {
+            font-weight: bold;
+        }
+        
+        .sidebar-item:last-child {
+            border-bottom: none;
+        }
+        
+        /* Form Styles */
+        .form-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .form-section {
+            background-color: #f8fafc;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .form-section h3 {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #333;
+        }
+        
+        .form-row {
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 15px;
+            gap: 20px;
+        }
+        
+        .form-group {
+            flex: 1 0 45%;
+            min-width: 250px;
+            margin-bottom: 15px;
+        }
+        
+        .form-label {
+            display: block;
+            font-size: 14px;
+            font-weight: bold;
+            color: #555;
+            margin-bottom: 5px;
+        }
+        
+        .btn-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 16px;
+            cursor: pointer;
+            text-align: center;
+        }
+        
+        .btn-primary {
+            background-color: #4f46e5;
+            color: #fff;
+            border: none;
+        }
+        
+        .btn-secondary {
+            background-color: #fff;
+            color: #4f46e5;
+            border: 2px solid #4f46e5;
+        }
+        
+        .form-note {
+            font-size: 14px;
+            color: #555;
+            font-style: italic;
+            margin-top: 5px;
+        }
+        
+        /* Progress indicators */
+        .steps-container {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+        }
+        
+        .step {
+            flex: 1;
+            text-align: center;
+            position: relative;
+        }
+        
+        .step::before {
+            content: "";
+            height: 2px;
+            width: 100%;
+            background-color: #ddd;
+            position: absolute;
+            top: 15px;
+            left: -50%;
+            z-index: 1;
+        }
+        
+        .step:first-child::before {
+            display: none;
+        }
+        
+        .step-circle {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 5px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .step.active .step-circle, .step.completed .step-circle {
+            background-color: #4f46e5;
+            color: #fff;
+        }
+        
+        .step-label {
+            font-size: 14px;
+            color: #888;
+        }
+        
+        .step.active .step-label, .step.completed .step-label {
+            color: #333;
+            font-weight: bold;
+        }
+        
+        /* Verification Styles */
+        .verification-container {
+            margin-bottom: 20px;
+        }
+        
+        .verification-item {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .verification-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .verification-item-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .verification-status {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        .status-complete {
+            background-color: #dcfce7;
+            color: #10b981;
+        }
+        
+        .status-pending {
+            background-color: #fff7ed;
+            color: #f59e0b;
+        }
+        
+        .status-incomplete {
+            background-color: #fee2e2;
+            color: #ef4444;
+        }
+        
+        .status-in-progress {
+            background-color: #e0e7ff;
+            color: #4f46e5;
+        }
+        
+        .verification-details {
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 10px;
+        }
+        
+        .verification-item-content {
+            padding: 10px 0;
+        }
+        
+        .verification-checklist {
+            margin: 10px 0;
+        }
+        
+        .checklist-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: #555;
+        }
+        
+        .checklist-icon {
+            min-width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            color: #fff;
+            font-size: 12px;
+        }
+        
+        .icon-complete {
+            background-color: #10b981;
+        }
+        
+        .icon-pending {
+            background-color: #f59e0b;
+        }
+        
+        .icon-incomplete {
+            background-color: #ef4444;
+        }
+        
+        .verification-summary {
+            background-color: #e0e7ff;
+            border-radius: 5px;
+            padding: 15px;
+            margin-top: 20px;
+        }
+        
+        .summary-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .estimated-time {
+            background-color: #f8fafc;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            margin-top: 15px;
+        }
+        
+        .estimated-time-title {
+            font-size: 14px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        
+        .time-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+            font-size: 14px;
+            color: #555;
+        }
+        
+        .verification-action {
+            margin-top: 15px;
+        }
+        
+        .action-btn {
+            display: inline-block;
+            padding: 10px 15px;
+            background-color: #f8fafc;
+            color: #4f46e5;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        
+        .action-btn:hover {
+            background-color: #e0e7ff;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .btn-container {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>ZAMONEY Platform</h1>
+        </header>
+        
+        <!-- Navigation -->
+        <nav class="nav">
+            <a href="index.html">Home</a>
+            <a href="#">Marketplace</a>
+            <a href="index.html" class="active">Submit PO</a>
+            <a href="#">My Account</a>
+            <a href="#">Support</a>
+        </nav>
+        
+        <!-- Main Section -->
+        <section class="section">
+            <h2 class="section-title">Submit Purchase Order for Funding</h2>
+            
+            <div class="dashboard" style="display: flex; gap: 20px;">
+                <!-- Sidebar -->
+                <div class="sidebar">
+                    <div class="sidebar-item">Dashboard</div>
+                    <div class="sidebar-item">My Investments</div>
+                    <div class="sidebar-item"><a href="submission-confirmation.html">My PO Listings</a></div>
+                    <div class="sidebar-item active">Submit New PO</div>
+                    <div class="sidebar-item">Wallet</div>
+                    <div class="sidebar-item">Notifications</div>
+                    <div class="sidebar-item">Settings</div>
+                    <div class="sidebar-item">Support</div>
+                </div>
+                
+                <!-- Main Content -->
+                <div class="main-content" style="flex: 1;">
+                    <!-- Progress Steps -->
+                    <div class="steps-container">
+                        <div class="step completed">
+                            <div class="step-circle">✓</div>
+                            <div class="step-label"><a href="index.html">PO Details</a></div>
+                        </div>
+                        <div class="step completed">
+                            <div class="step-circle">✓</div>
+                            <div class="step-label"><a href="funding-terms-page.html">Funding Terms</a></div>
+                        </div>
+                        <div class="step active">
+                            <div class="step-circle">3</div>
+                            <div class="step-label">Verification</div>
+                        </div>
+                        <div class="step">
+                            <div class="step-circle">4</div>
+                            <div class="step-label"><a href="submission-page.html">Submit</a></div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-container">
+                        <form id="verification-form">
+                            <!-- Verification Overview -->
+                            <div class="form-section">
+                                <h3>Verification Overview</h3>
+                                
+                                <p style="margin-bottom: 15px;">Before your PO can be listed on the marketplace, ZAMONEY performs several verification checks to ensure the authenticity and quality of all purchase orders. These checks help protect both suppliers and investors.</p>
+                                
+                                <div class="verification-summary">
+                                    <div class="summary-title">Pre-Verification Status</div>
+                                    <p>Based on the information provided, ZAMONEY has conducted preliminary verification checks with the following results:</p>
+                                    
+                                    <div class="verification-checklist">
+                                        <div class="checklist-item">
+                                            <div class="checklist-icon icon-complete">✓</div>
+                                            <div>Your supplier profile is verified and in good standing</div>
+                                        </div>
+                                        <div class="checklist-item">
+                                            <div class="checklist-icon icon-complete">✓</div>
+                                            <div>The buyer (National Library of South Africa) is a verified government entity</div>
+                                        </div>
+                                        <div class="checklist-item">
+                                            <div class="checklist-icon icon-complete">✓</div>
+                                            <div>Initial PO document format appears valid</div>
+                                        </div>
+                                        <div class="checklist-item">
+                                            <div class="checklist-icon icon-complete">✓</div>
+                                            <div>The PO amount (R 402,000.00) is within your eligible funding range</div>
+                                        </div>
+                                    </div>
+                                    
+                                    <p style="font-weight: bold; color: #10b981; margin-top: 10px;">Pre-verification status: Approved to proceed</p>
+                                </div>
+                                
+                                <div class="estimated-time">
+                                    <div class="estimated-time-title">Estimated Verification Timeline</div>
+                                    <div class="time-row">
+                                        <div>PO Document Verification:</div>
+                                        <div>1-2 business days</div>
+                                    </div>
+                                    <div class="time-row">
+                                        <div>Buyer Confirmation:</div>
+                                        <div>2-3 business days</div>
+                                    </div>
+                                    <div class="time-row">
+                                        <div>Final Approval:</div>
+                                        <div>1 business day</div>
+                                    </div>
+                                    <div style="margin-top: 10px; font-weight: bold;">Expected total time: 4-6 business days</div>
+                                </div>
+                            </div>
+                            
+                            <!-- Verification Items -->
+                            <div class="form-section">
+                                <h3>Verification Checklist</h3>
+                                
+                                <div class="verification-container">
+                                    <!-- KYC Verification -->
+                                    <div class="verification-item">
+                                        <div class="verification-item-header">
+                                            <div class="verification-item-title">Supplier KYC Verification</div>
+                                            <div class="verification-status status-complete">Complete</div>
+                                        </div>
+                                        <div class="verification-details">
+                                            Your company's KYC (Know Your Customer) verification is complete and up to date.
+                                        </div>
+                                        <div class="verification-item-content">
+                                            <div class="verification-checklist">
+                                                <div class="checklist-item">
+                                                    <div class="checklist-icon icon-complete">✓</div>
+                                                    <div>Company registration document verified</div>
+                                                </div>
+                                                <div class="checklist-item">
+                                                    <div class="checklist-icon icon-complete">✓</div>
+                                                    <div>Director ID verification complete</div>
+                                                </div>
+                                                <div class="checklist-item">
+                                                    <div class="checklist-icon icon-complete">✓</div>
+                                                    <div>Bank account verification complete</div>
+                                                </div>
+                                                <div class="checklist-item">
+                                                    <div class="checklist-icon icon-complete">✓</div>
+                                                    <div>Tax registration verified</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Buyer Verification -->
+                                    <div class="verification-item">
+                                        <div class="verification-item-header">
+                                            <div class="verification-item-title">Buyer Verification and Credit Check</div>
+                                            <div class="verification-status status-in-progress">In Progress</div>
+                                        </div>
+                                        <div class="verification-details">
+                                            ZAMONEY will verify the buyer's identity and perform a credit assessment.
+                                        </div>
+                                        <div class="verification-item-content">
+                                            <div class="verification-checklist">
+                                                <div class="checklist-item">
+                                                    <div class="checklist-icon icon-complete">✓</div>
+                                                    <div>Buyer identity confirmed (Government Entity)</div>
+                                                </div>
+                                                <div class="checklist-item">
+                                                    <div class="checklist-icon icon-complete">✓</div>
+                                                    <div>Operational status verified</div>
+                                                </div>
+                                                <div class="checklist-item">
+                                                    <div class="checklist-icon icon-pending">⟳</div>
+                                                    <div>Payment history assessment in progress</div>
+                                                </div>
+                                                <div class="checklist-item">
+                                                    <div class="checklist-icon icon-pending">⟳</div>
+                                                    <div>Budget allocation verification pending</div>
+                                                </div>
+                                            </div>
+                                            <div class="verification-action">
+                                                <button type="button" class="action-btn">View Preliminary Buyer Report</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- PO Document Verification -->
+                                    <div class="verification-item">
+                                        <div class="verification-item-header">
+                                            <div class="verification-item-title">Purchase Order Authenticity</div>
+                                            <div class="verification-status status-in-progress">In Progress</div>
+                                        </div>
+                                        <div class="verification-details">
+                                            ZAMONEY verifies the authenticity of the purchase order with the buyer.
+                                        </div>
+                                        <div class="verification-item-content">
+                                            <div class="verification-checklist">
+                                                <div class="checklist-item">
+                                                    <div class="checklist-icon icon-complete">✓</div>
+                                                    <div>PO document format validation complete</div>
+                                                </div>
+                                                <div class="checklist-item">
+                                                    <div class="checklist-icon icon-complete">✓</div>
+                                                    <div>PO number appears valid</div>
+                                                </div>
+                                                <div class="checklist-item">
+                                                    <div class="checklist-icon icon-pending">⟳</div>
+                                                    <div>Buyer confirmation request sent</div>
+                                                </div>
+                                                <div class="checklist-item">
+                                                    <div class="checklist-icon icon-pending">⟳</div>
+                                                    <div>PO authorization verification pending</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Funding Terms Verification -->
+                                    <div class="verification-item">
+                                        <div class="verification-item-header">
+                                            <div class="verification-item-title">Funding Terms Review</div>
+                                            <div class="verification-status status-complete">Complete</div>
+                                        </div>
+                                        <div class="verification-details">
+                                            Review of the funding terms and conditions you've specified.
+                                        </div>
+                                        <div class="verification-item-content">
+                                            <div class="verification-checklist">
+                                                <div class="checklist-item">
+                                                    <div class="checklist-icon icon-complete">✓</div>
+                                                    <div>Return rate within acceptable range (12%)</div>
+                                                </div>
+                                                <div class="checklist-item">
+                                                    <div class="checklist-icon icon-complete">✓</div>
+                                                    <div>Funding timeline aligns with PO payment terms</div>
+                                                </div>
+                                                <div class="checklist-item">
+                                                    <div class="checklist-icon icon-complete">✓</div>
+                                                    <div>Minimum investment amount validated</div>
+                                                </div>
+                                                <div class="checklist-item">
+                                                    <div class="checklist-icon icon-complete">✓</div>
+                                                    <div>Smart contract enabled for investor protection</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Next Steps -->
+                            <div class="form-section">
+                                <h3>Next Steps</h3>
+                                
+                                <p style="margin-bottom: 15px;">Your PO has passed pre-verification and is now moving to full verification. Here's what happens next:</p>
+                                
+                                <ol style="margin-left: 20px; margin-bottom: 20px;">
+                                    <li style="margin-bottom: 10px;">ZAMONEY will contact the National Library of South Africa to verify the PO authenticity directly.</li>
+                                    <li style="margin-bottom: 10px;">A full credit assessment on the buyer will be completed.</li>
+                                    <li style="margin-bottom: 10px;">Once these checks are complete, the PO will be reviewed for final approval.</li>
+                                    <li style="margin-bottom: 10px;">You'll receive email notifications at each verification stage.</li>
+                                </ol>
+                                
+                                <div class="form-note">
+                                    We may occasionally request additional information to support the verification process. Please ensure your contact details are up to date.
+                                </div>
+                            </div>
+                            
+                            <!-- Terms & Conditions -->
+                            <div class="form-section">
+                                <h3>Verification Agreement</h3>
+                                
+                                <div style="margin-bottom: 15px;">
+                                    <label style="display: flex; align-items: flex-start; gap: 10px;">
+                                        <input type="checkbox" checked style="margin-top: 3px;">
+                                        <span>I confirm that all information provided regarding this purchase order is accurate and truthful. I understand that providing false information may result in permanent suspension from the ZAMONEY platform.</span>
+                                    </label>
+                                </div>
+                                
+                                <div style="margin-bottom: 15px;">
+                                    <label style="display: flex; align-items: flex-start; gap: 10px;">
+                                        <input type="checkbox" checked style="margin-top: 3px;">
+                                        <span>I authorize ZAMONEY to contact the buyer (National Library of South Africa) to verify the authenticity of this purchase order.</span>
+                                    </label>
+                                </div>
+                                
+                                <div style="margin-bottom: 15px;">
+                                    <label style="display: flex; align-items: flex-start; gap: 10px;">
+                                        <input type="checkbox" checked style="margin-top: 3px;">
+                                        <span>I understand that the PO will only be listed on the marketplace after successful completion of all verification checks.</span>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <!-- Form Buttons -->
+                            <div class="btn-container">
+                                <button type="button" class="btn btn-secondary">Back to Funding Terms</button>
+                                <button type="button" class="btn btn-primary">Continue to Submit</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</body>
+</html>

@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZAMONEY Platform - PO Upload</title>
+    <style>
+        /* Global Styles */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .header h1 {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .section {
+            background-color: #fff;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .section-title {
+            font-size: 20px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        /* Navigation */
+        .nav {
+            background-color: #4f46e5;
+            border-radius: 5px;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        
+        .nav a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 16px;
+        }
+        
+        .nav a.active {
+            font-weight: bold;
+        }
+        
+        /* Form Styles */
+        .form-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .form-section {
+            background-color: #f8fafc;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .form-section h3 {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #333;
+        }
+        
+        .form-row {
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 15px;
+            gap: 20px;
+        }
+        
+        .form-group {
+            flex: 1 0 45%;
+            min-width: 250px;
+            margin-bottom: 15px;
+        }
+        
+        .form-label {
+            display: block;
+            font-size: 14px;
+            font-weight: bold;
+            color: #555;
+            margin-bottom: 5px;
+        }
+        
+        .form-input, .form-select, .form-textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        
+        .form-textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .form-file-input {
+            margin-top: 10px;
+        }
+        
+        .upload-area {
+            border: 2px dashed #ddd;
+            border-radius: 5px;
+            padding: 25px;
+            text-align: center;
+            margin-bottom: 20px;
+            background-color: #fff;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        
+        .upload-area:hover {
+            border-color: #4f46e5;
+        }
+        
+        .upload-icon {
+            font-size: 36px;
+            color: #4f46e5;
+            margin-bottom: 10px;
+        }
+        
+        .upload-text {
+            font-size: 16px;
+            color: #555;
+            margin-bottom: 10px;
+        }
+        
+        .upload-hint {
+            font-size: 12px;
+            color: #888;
+        }
+        
+        .btn-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 16px;
+            cursor: pointer;
+            text-align: center;
+        }
+        
+        .btn-primary {
+            background-color: #4f46e5;
+            color: #fff;
+            border: none;
+        }
+        
+        .btn-secondary {
+            background-color: #fff;
+            color: #4f46e5;
+            border: 2px solid #4f46e5;
+        }
+        
+        .form-note {
+            font-size: 14px;
+            color: #555;
+            font-style: italic;
+            margin-top: 5px;
+        }
+        
+        .help-text {
+            font-size: 13px;
+            color: #666;
+            margin-top: 4px;
+        }
+        
+        .form-preview {
+            margin-bottom: 15px;
+        }
+        
+        .preview-title {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .preview-item {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #fff;
+        }
+        
+        .preview-item-name {
+            font-size: 14px;
+        }
+        
+        .preview-item-remove {
+            color: #ef4444;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        .verification-badge {
+            display: inline-block;
+            background-color: #10b981;
+            color: #fff;
+            font-size: 12px;
+            padding: 3px 8px;
+            border-radius: 10px;
+            margin-left: 5px;
+        }
+        
+        /* Progress indicators */
+        .steps-container {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+        }
+        
+        .step {
+            flex: 1;
+            text-align: center;
+            position: relative;
+        }
+        
+        .step::before {
+            content: "";
+            height: 2px;
+            width: 100%;
+            background-color: #ddd;
+            position: absolute;
+            top: 15px;
+            left: -50%;
+            z-index: 1;
+        }
+        
+        .step:first-child::before {
+            display: none;
+        }
+        
+        .step-circle {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 5px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .step.active .step-circle {
+            background-color: #4f46e5;
+            color: #fff;
+        }
+        
+        .step-label {
+            font-size: 14px;
+            color: #888;
+        }
+        
+        .step.active .step-label {
+            color: #333;
+            font-weight: bold;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .form-group {
+                flex: 1 0 100%;
+            }
+            
+            .btn-container {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>ZAMONEY Platform</h1>
+        </header>
+        
+        <!-- Navigation -->
+        <nav class="nav">
+            <a href="index.html">Home</a>
+            <a href="#">Marketplace</a>
+            <a href="index.html" class="active">Submit PO</a>
+            <a href="#">My Account</a>
+            <a href="#">Support</a>
+        </nav>
+        
+        <!-- Main Section -->
+        <section class="section">
+            <h2 class="section-title">Submit Purchase Order for Funding</h2>
+            
+            <div class="dashboard" style="display: flex; gap: 20px;">
+                <!-- Sidebar -->
+                <div class="sidebar" style="width: 200px; background-color: #f1f5f9; border-radius: 5px; padding: 20px;">
+                    <div class="sidebar-item" style="padding: 10px 0; border-bottom: 2px solid #ddd;">Dashboard</div>
+                    <div class="sidebar-item" style="padding: 10px 0; border-bottom: 2px solid #ddd;">My Investments</div>
+                    <div class="sidebar-item" style="padding: 10px 0; border-bottom: 2px solid #ddd;"><a href="submission-confirmation.html">My PO Listings</a></div>
+                    <div class="sidebar-item active" style="padding: 10px 0; border-bottom: 2px solid #ddd; font-weight: bold; color: #333;">Submit New PO</div>
+                    <div class="sidebar-item" style="padding: 10px 0; border-bottom: 2px solid #ddd;">Wallet</div>
+                    <div class="sidebar-item" style="padding: 10px 0; border-bottom: 2px solid #ddd;">Notifications</div>
+                    <div class="sidebar-item" style="padding: 10px 0; border-bottom: 2px solid #ddd;">Settings</div>
+                    <div class="sidebar-item" style="padding: 10px 0;">Support</div>
+                </div>
+                
+                <!-- Main Content -->
+            
+
+            
+            <div class="main-content" style="flex: 1;">
+                <!-- Progress Steps -->
+                <div class="steps-container">
+                    <div class="step active">
+                        <div class="step-circle">1</div>
+                        <div class="step-label">PO Details</div>
+                    </div>
+                    <div class="step">
+                        <div class="step-circle">2</div>
+                        <div class="step-label"><a href="funding-terms-page.html">Funding Terms</a></div>
+                    </div>
+                    <div class="step">
+                        <div class="step-circle">3</div>
+                        <div class="step-label"><a href="verification-page.html">Verification</a></div>
+                    </div>
+                    <div class="step">
+                        <div class="step-circle">4</div>
+                        <div class="step-label"><a href="submission-page.html">Submit</a></div>
+                    </div>
+                </div>
+                
+                <div class="form-container">
+                    <!-- Buyer and Supplier Information -->
+                    <div class="form-section">
+                        <h3>Purchase Order Information</h3>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">PO Number *</label>
+                                <input type="text" class="form-input" placeholder="e.g. 5067" value="5067" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">PO Date *</label>
+                                <input type="date" class="form-input" value="2025-03-31" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Expected Delivery Date *</label>
+                                <input type="date" class="form-input" value="2025-04-07" required>
+                                <div class="help-text">Delivery expected within 7 days of PO issuance</div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Industry Category *</label>
+                                <select class="form-select" required>
+                                    <option value="">Select industry</option>
+                                    <option value="office" selected>Office Supplies</option>
+                                    <option value="it">IT Equipment</option>
+                                    <option value="manufacturing">Manufacturing</option>
+                                    <option value="construction">Construction</option>
+                                    <option value="food">Food & Catering</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">PO Total Amount (R) *</label>
+                                <input type="text" class="form-input" placeholder="e.g. 500000" value="402000" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Payment Terms *</label>
+                                <select class="form-select" required>
+                                    <option value="">Select payment terms</option>
+                                    <option value="immediate">Immediate on delivery</option>
+                                    <option value="7days">7 days after delivery</option>
+                                    <option value="15days" selected>15 days after delivery</option>
+                                    <option value="30days">30 days after delivery</option>
+                                    <option value="custom">Custom</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Buyer Information -->
+                    <div class="form-section">
+                        <h3>Buyer Information</h3>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Buyer Company Name *</label>
+                                <input type="text" class="form-input" placeholder="e.g. National Library of South Africa" value="National Library of South Africa" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Years in Operation *</label>
+                                <select class="form-select" required>
+                                    <option value="">Select years</option>
+                                    <option value="<1">Less than 1 year</option>
+                                    <option value="1-3">1-3 years</option>
+                                    <option value="3-5">3-5 years</option>
+                                    <option value="5-10">5-10 years</option>
+                                    <option value=">10" selected>More than 10 years</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Buyer Contact Person *</label>
+                                <input type="text" class="form-input" placeholder="e.g. John Smith" value="Lorraine" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Buyer Email *</label>
+                                <input type="email" class="form-input" placeholder="e.g. contact@company.com" value="nlsa.accounts@nlsa.ac.za" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Buyer Phone Number *</label>
+                                <input type="tel" class="form-input" placeholder="e.g. 012 401 9700" value="012 401 9700" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Buyer Registration Number</label>
+                                <input type="text" class="form-input" placeholder="e.g. 2012/123456/07">
+                                <div class="verification-badge">Government Entity</div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Buyer Address *</label>
+                            <textarea class="form-textarea" placeholder="Full address" required>P.O BOX 397
+PRETORIA 0001
+South Africa</textarea>
+                        </div>
+                    </div>
+                    
+                    <!-- Supplier Information -->
+                    <div class="form-section">
+                        <h3>Supplier Information (Your Company)</h3>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Company Name *</label>
+                                <input type="text" class="form-input" placeholder="Your company name" value="SIPHUMELELE NJALO TRADING" required>
+                                <div class="verification-badge">Verified</div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Registration Number *</label>
+                                <input type="text" class="form-input" placeholder="e.g. 2020/123456/07" value="2020/449662/07" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Contact Person *</label>
+                                <input type="text" class="form-input" placeholder="Your name" value="Sihle Ncwadi" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Contact Email *</label>
+                                <input type="email" class="form-input" placeholder="Your email" value="siphumelelenjalo3@gmail.com" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Contact Phone *</label>
+                                <input type="tel" class="form-input" placeholder="Your phone number" value="072 307 4059" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Years in Business *</label>
+                                <select class="form-select" required>
+                                    <option value="">Select years</option>
+                                    <option value="<1">Less than 1 year</option>
+                                    <option value="1-3" selected>1-3 years</option>
+                                    <option value="3-5">3-5 years</option>
+                                    <option value="5-10">5-10 years</option>
+                                    <option value=">10">More than 10 years</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Company Address *</label>
+                            <textarea class="form-textarea" placeholder="Your full address" required>DUDUZA
+1490
+South Africa</textarea>
+                        </div>
+                    </div>
+                    
+                    <!-- PO Items -->
+                    <div class="form-section">
+                        <h3>Purchase Order Items</h3>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Item Description *</label>
+                                <input type="text" class="form-input" placeholder="e.g. Office Chairs" value="Procurement of office chairs" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Quantity</label>
+                                <input type="number" class="form-input" placeholder="Quantity">
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Unit Price (R)</label>
+                                <input type="text" class="form-input" placeholder="e.g. 2000">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Total Price (R) *</label>
+                                <input type="text" class="form-input" placeholder="e.g. 100000" value="402000" required>
+                            </div>
+                        </div>
+                        
+                        <button type="button" class="btn btn-secondary" style="margin-top: 10px;">+ Add Another Item</button>
+                    </div>
+                    
+                    <!-- PO Details -->
+                    <div class="form-section">
+                        <h3>Purchase Order Details</h3>
+                        
+                        <div class="form-group">
+                            <label class="form-label">PO Description *</label>
+                            <textarea class="form-textarea" placeholder="Describe the goods or services being purchased" required>Procurement of office chairs for the National Library of South Africa. Based on Purchase Request 5620. Based on Purchase Quotation 8817.</textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Special Terms & Conditions</label>
+                            <textarea class="form-textarea" placeholder="Any special terms or conditions for this PO">All goods and services works should be delivered within seven (7) days after receipt of PO and failure will result in the PO being cancelled and contract terminated. All goods and services have to been received and cleared by our receiving department, once done email lorraine your invoice at nlsa.accounts@nlsa.ac.za for payment.</textarea>
+                        </div>
+                    </div>
+                    
+                    <!-- Document Upload -->
+                    <div class="form-section">
+                        <h3>Supporting Documents</h3>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Official Purchase Order Document *</label>
+                            <div class="upload-area">
+                                <div class="upload-icon">📄</div>
+                                <div class="upload-text">Drag & drop or click to upload PO document</div>
+                                <div class="upload-hint">Accepted formats: PDF, JPG, PNG (Max: 10MB)</div>
+                                <input type="file" id="po-document" class="form-file-input" style="display: none;" accept=".pdf,.jpg,.jpeg,.png">
+                            </div>
+                            <div class="form-preview">
+                                <div class="preview-item">
+                                    <div class="preview-item-name">NLSA_PO_5067.pdf</div>
+                                    <div class="preview-item-remove">✕ Remove</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Quotation Document (Optional)</label>
+                            <div class="upload-area">
+                                <div class="upload-icon">📄</div>
+                                <div class="upload-text">Drag & drop or click to upload quotation</div>
+                                <div class="upload-hint">Accepted formats: PDF, JPG, PNG (Max: 10MB)</div>
+                                <input type="file" id="quotation-document" class="form-file-input" style="display: none;" accept=".pdf,.jpg,.jpeg,.png">
+                            </div>
+                            <div class="form-preview">
+                                <div class="preview-item">
+                                    <div class="preview-item-name">Quotation_8817.pdf</div>
+                                    <div class="preview-item-remove">✕ Remove</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Additional Supporting Documents (Optional)</label>
+                            <div class="upload-area">
+                                <div class="upload-icon">📄</div>
+                                <div class="upload-text">Drag & drop or click to upload additional documents</div>
+                                <div class="upload-hint">Accepted formats: PDF, JPG, PNG, DOC, DOCX (Max: 10MB)</div>
+                                <input type="file" id="additional-documents" class="form-file-input" style="display: none;" accept=".pdf,.jpg,.jpeg,.png,.doc,.docx" multiple>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Funding Request -->
+                    <div class="form-section">
+                        <h3>Funding Request</h3>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Funding Amount Required (R) *</label>
+                                <input type="text" class="form-input" placeholder="e.g. 100000" value="402000" required>
+                                <div class="help-text">Amount you need to fulfill this purchase order</div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Proposed Return Rate (%) *</label>
+                                <input type="text" class="form-input" placeholder="e.g. 15" value="12" required>
+                                <div class="help-text">Interest you're offering to investors (10-20% typical range)</div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Funding Period (Days) *</label>
+                                <select class="form-select" required>
+                                    <option value="">Select period</option>
+                                    <option value="15">15 days</option>
+                                    <option value="30" selected>30 days</option>
+                                    <option value="45">45 days</option>
+                                    <option value="60">60 days</option>
+                                    <option value="90">90 days</option>
+                                    <option value="custom">Custom</option>
+                                </select>
+                                <div class="help-text">How long until you expect to repay investors</div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Smart Contract Enabled *</label>
+                                <select class="form-select" required>
+                                    <option value="yes" selected>Yes</option>
+                                    <option value="no">No</option>
+                                </select>
+                                <div class="help-text">Enables automatic escrow protection and payment release</div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Why Should Investors Fund This PO? *</label>
+                            <textarea class="form-textarea" placeholder="Explain why this is a good investment opportunity" required>This is a government purchase order from the National Library of South Africa, a reliable and established institution with excellent payment history. The PO is for essential office equipment with clear delivery timelines and payment terms. We have successfully fulfilled 5 previous orders for NLSA with timely payments.</textarea>
+                        </div>
+                    </div>
+                    
+                    <!-- Terms & Conditions -->
+                    <div class="form-section">
+                        <h3>Terms & Verification</h3>
+                        
+                        <div class="form-group">
+                            <label class="form-checkbox">
+                                <input type="checkbox" checked required>
+                                I confirm that all information provided is accurate and the purchase order is valid
+                            </label>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-checkbox">
+                                <input type="checkbox" checked required>
+                                I agree to ZAMONEY's terms of service and platform fees
+                            </label>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-checkbox">
+                                <input type="checkbox" checked required>
+                                I understand that ZAMONEY will verify all information before listing this PO
+                            </label>
+                        </div>
+                        
+                        <div class="form-note">
+                            Note: ZAMONEY charges a 2% platform fee on successfully funded POs. Additional verification may be required before your PO is listed on the marketplace.
+                        </div>
+                    </div>
+                    
+                    <!-- Form Buttons -->
+                    <div class="btn-container">
+                        <button type="button" class="btn btn-secondary">Save as Draft</button>
+                        <button type="button" class="btn btn-primary">Continue to Funding Terms</button>
+                    </div>
+                </form>
+            </div>
+            </div>
+        </section>
+    </div>
+    
+    <script>
+        // Simple JavaScript to handle the file upload interactions
+        document.querySelectorAll('.upload-area').forEach(area => {
+            const fileInput = area.querySelector('input[type="file"]');
+            
+            area.addEventListener('click', () => {
+                fileInput.click();
+            });
+            
+            // Add drag and drop functionality
+            area.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                area.style.borderColor = '#4f46e5';
+                area.style.backgroundColor = '#f5f7ff';
+            });
+            
+            area.addEventListener('dragleave', () => {
+                area.style.borderColor = '#ddd';
+                area.style.backgroundColor = '#fff';
+            });
+            
+            area.addEventListener('drop', (e) => {
+                e.preventDefault();
+                area.style.borderColor = '#ddd';
+                area.style.backgroundColor = '#fff';
+                
+                if (e.dataTransfer.files.length) {
+                    fileInput.files = e.dataTransfer.files;
+                    // Here you would normally update the UI to show the file
+                }
+            });
+        });
+        
+        // Handle remove buttons for preview items
+        document.querySelectorAll('.preview-item-remove').forEach(button => {
+            button.addEventListener('click', (e) => {
+                e.preventDefault();
+                // In a real implementation, this would clear the file input
+                button.closest('.preview-item').remove();
+            });
+        });
+    </script>
+</body>
+</html>

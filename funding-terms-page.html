@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZAMONEY Platform - Funding Terms</title>
+    <style>
+        /* Global Styles */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .header h1 {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .section {
+            background-color: #fff;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .section-title {
+            font-size: 20px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        /* Navigation */
+        .nav {
+            background-color: #4f46e5;
+            border-radius: 5px;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        
+        .nav a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 16px;
+        }
+        
+        .nav a.active {
+            font-weight: bold;
+        }
+        
+        /* Sidebar */
+        .sidebar {
+            width: 200px;
+            background-color: #f1f5f9;
+            border-radius: 5px;
+            padding: 20px;
+        }
+        
+        .sidebar-item {
+            padding: 10px 0;
+            border-bottom: 2px solid #ddd;
+        }
+        
+        .sidebar-item.active {
+            font-weight: bold;
+        }
+        
+        .sidebar-item:last-child {
+            border-bottom: none;
+        }
+        
+        /* Form Styles */
+        .form-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .form-section {
+            background-color: #f8fafc;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .form-section h3 {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #333;
+        }
+        
+        .form-row {
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 15px;
+            gap: 20px;
+        }
+        
+        .form-group {
+            flex: 1 0 45%;
+            min-width: 250px;
+            margin-bottom: 15px;
+        }
+        
+        .form-label {
+            display: block;
+            font-size: 14px;
+            font-weight: bold;
+            color: #555;
+            margin-bottom: 5px;
+        }
+        
+        .form-input, .form-select, .form-textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        
+        .form-textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .btn-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 16px;
+            cursor: pointer;
+            text-align: center;
+        }
+        
+        .btn-primary {
+            background-color: #4f46e5;
+            color: #fff;
+            border: none;
+        }
+        
+        .btn-secondary {
+            background-color: #fff;
+            color: #4f46e5;
+            border: 2px solid #4f46e5;
+        }
+        
+        .form-note {
+            font-size: 14px;
+            color: #555;
+            font-style: italic;
+            margin-top: 5px;
+        }
+        
+        .help-text {
+            font-size: 13px;
+            color: #666;
+            margin-top: 4px;
+        }
+        
+        /* Progress indicators */
+        .steps-container {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+        }
+        
+        .step {
+            flex: 1;
+            text-align: center;
+            position: relative;
+        }
+        
+        .step::before {
+            content: "";
+            height: 2px;
+            width: 100%;
+            background-color: #ddd;
+            position: absolute;
+            top: 15px;
+            left: -50%;
+            z-index: 1;
+        }
+        
+        .step:first-child::before {
+            display: none;
+        }
+        
+        .step-circle {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 5px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .step.active .step-circle, .step.completed .step-circle {
+            background-color: #4f46e5;
+            color: #fff;
+        }
+        
+        .step-label {
+            font-size: 14px;
+            color: #888;
+        }
+        
+        .step.active .step-label, .step.completed .step-label {
+            color: #333;
+            font-weight: bold;
+        }
+        
+        /* Card for PO Summary */
+        .po-summary-card {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .po-summary-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .po-number {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .po-info-row {
+            display: flex;
+            margin-bottom: 8px;
+        }
+        
+        .po-info-label {
+            width: 40%;
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .po-info-value {
+            width: 60%;
+            font-size: 14px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        /* Risk Assessment */
+        .risk-rating {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .risk-indicator {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+        }
+        
+        .risk-low {
+            background-color: #10b981;
+        }
+        
+        .risk-med {
+            background-color: #f59e0b;
+        }
+        
+        .risk-high {
+            background-color: #ef4444;
+        }
+        
+        .risk-label {
+            font-size: 14px;
+            font-weight: bold;
+        }
+        
+        /* Investment Calculator */
+        .calculator-result {
+            background-color: #e0e7ff;
+            border-radius: 5px;
+            padding: 15px;
+            margin-top: 15px;
+        }
+        
+        .result-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+        }
+        
+        .result-label {
+            font-size: 14px;
+            color: #555;
+        }
+        
+        .result-value {
+            font-size: 14px;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .result-highlight {
+            font-size: 16px;
+            color: #4f46e5;
+            font-weight: bold;
+        }
+        
+        /* Slider */
+        .slider-container {
+            margin-top: 10px;
+        }
+        
+        .slider {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 8px;
+            border-radius: 5px;  
+            background: #ddd;
+            outline: none;
+        }
+        
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%; 
+            background: #4f46e5;
+            cursor: pointer;
+        }
+        
+        .slider-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 5px;
+        }
+        
+        .slider-min, .slider-max {
+            font-size: 12px;
+            color: #888;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .form-group {
+                flex: 1 0 100%;
+            }
+            
+            .btn-container {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>ZAMONEY Platform</h1>
+        </header>
+        
+        <!-- Navigation -->
+        <nav class="nav">
+            <a href="index.html">Home</a>
+            <a href="#">Marketplace</a>
+            <a href="index.html" class="active">Submit PO</a>
+            <a href="#">My Account</a>
+            <a href="#">Support</a>
+        </nav>
+        
+        <!-- Main Section -->
+        <section class="section">
+            <h2 class="section-title">Submit Purchase Order for Funding</h2>
+            
+            <div class="dashboard" style="display: flex; gap: 20px;">
+                <!-- Sidebar -->
+                <div class="sidebar">
+                    <div class="sidebar-item">Dashboard</div>
+                    <div class="sidebar-item">My Investments</div>
+                    <div class="sidebar-item"><a href="submission-confirmation.html">My PO Listings</a></div>
+                    <div class="sidebar-item active">Submit New PO</div>
+                    <div class="sidebar-item">Wallet</div>
+                    <div class="sidebar-item">Notifications</div>
+                    <div class="sidebar-item">Settings</div>
+                    <div class="sidebar-item">Support</div>
+                </div>
+                
+                <!-- Main Content -->
+                <div class="main-content" style="flex: 1;">
+                    <!-- Progress Steps -->
+                    <div class="steps-container">
+                        <div class="step completed">
+                            <div class="step-circle">✓</div>
+                            <div class="step-label"><a href="index.html">PO Details</a></div>
+                        </div>
+                        <div class="step active">
+                            <div class="step-circle">2</div>
+                            <div class="step-label">Funding Terms</div>
+                        </div>
+                        <div class="step">
+                            <div class="step-circle">3</div>
+                            <div class="step-label"><a href="verification-page.html">Verification</a></div>
+                        </div>
+                        <div class="step">
+                            <div class="step-circle">4</div>
+                            <div class="step-label"><a href="submission-page.html">Submit</a></div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-container">
+                        <form id="funding-terms-form">
+                            <!-- PO Summary -->
+                            <div class="form-section">
+                                <h3>Purchase Order Summary</h3>
+                                
+                                <div class="po-summary-card">
+                                    <div class="po-summary-header">
+                                        <div class="po-number">PO #5067</div>
+                                        <div>Office Supplies</div>
+                                    </div>
+                                    
+                                    <div class="po-info-row">
+                                        <div class="po-info-label">Buyer:</div>
+                                        <div class="po-info-value">National Library of South Africa</div>
+                                    </div>
+                                    
+                                    <div class="po-info-row">
+                                        <div class="po-info-label">Amount:</div>
+                                        <div class="po-info-value">R 402,000.00</div>
+                                    </div>
+                                    
+                                    <div class="po-info-row">
+                                        <div class="po-info-label">Delivery Date:</div>
+                                        <div class="po-info-value">April 7, 2025</div>
+                                    </div>
+                                    
+                                    <div class="po-info-row">
+                                        <div class="po-info-label">Payment Terms:</div>
+                                        <div class="po-info-value">15 days after delivery</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Risk Assessment -->
+                            <div class="form-section">
+                                <h3>Risk Assessment</h3>
+                                
+                                <div class="po-info-row">
+                                    <div class="po-info-label">Buyer Verification:</div>
+                                    <div class="po-info-value">✓ Verified Government Entity</div>
+                                </div>
+                                
+                                <div class="po-info-row">
+                                    <div class="po-info-label">Years in Operation:</div>
+                                    <div class="po-info-value">More than 10 years</div>
+                                </div>
+                                
+                                <div class="po-info-row">
+                                    <div class="po-info-label">Previous Transactions:</div>
+                                    <div class="po-info-value">5 successful orders</div>
+                                </div>
+                                
+                                <div class="po-info-row">
+                                    <div class="po-info-label">Payment History:</div>
+                                    <div class="po-info-value">Excellent - No late payments</div>
+                                </div>
+                                
+                                <div class="risk-rating">
+                                    <div class="risk-indicator risk-low"></div>
+                                    <div class="risk-label">Low Risk</div>
+                                </div>
+                                
+                                <div class="form-note">
+                                    This PO has been assessed as low risk based on the buyer's verified status, excellent payment history, and your successful transaction history with this entity.
+                                </div>
+                            </div>
+                            
+                            <!-- Funding Terms -->
+                            <div class="form-section">
+                                <h3>Funding Terms</h3>
+                                
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label class="form-label">Funding Amount Required (R) *</label>
+                                        <input type="text" class="form-input" value="402000" required>
+                                        <div class="help-text">Total amount needed to fulfill this purchase order</div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Minimum Investment (R) *</label>
+                                        <input type="text" class="form-input" value="5000" required>
+                                        <div class="help-text">Smallest investment amount accepted per investor</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label class="form-label">Return Rate (%) *</label>
+                                        <input type="range" class="slider" min="10" max="20" value="12" id="returnRate">
+                                        <div class="slider-labels">
+                                            <span class="slider-min">10%</span>
+                                            <span class="slider-max">20%</span>
+                                        </div>
+                                        <div style="text-align: center; font-weight: bold; color: #4f46e5; margin-top: 5px;">12%</div>
+                                        <div class="help-text">Higher rates may attract more investors but increase your costs</div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Funding Period (Days) *</label>
+                                        <select class="form-select" required>
+                                            <option value="15">15 days</option>
+                                            <option value="30" selected>30 days</option>
+                                            <option value="45">45 days</option>
+                                            <option value="60">60 days</option>
+                                            <option value="90">90 days</option>
+                                        </select>
+                                        <div class="help-text">How long until you expect to repay investors</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="calculator-result">
+                                    <div class="result-row">
+                                        <div class="result-label">Funding Amount:</div>
+                                        <div class="result-value">R 402,000.00</div>
+                                    </div>
+                                    <div class="result-row">
+                                        <div class="result-label">Return to Investors (12%):</div>
+                                        <div class="result-value">R 48,240.00</div>
+                                    </div>
+                                    <div class="result-row">
+                                        <div class="result-label">Platform Fee (2%):</div>
+                                        <div class="result-value">R 8,040.00</div>
+                                    </div>
+                                    <div class="result-row" style="margin-top: 10px; padding-top: 10px; border-top: 1px solid #c7d2fe;">
+                                        <div class="result-label">Total Repayment Amount:</div>
+                                        <div class="result-value result-highlight">R 458,280.00</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Funding Justification -->
+                            <div class="form-section">
+                                <h3>Funding Justification</h3>
+                                
+                                <div class="form-group">
+                                    <label class="form-label">Why Should Investors Fund This PO? *</label>
+                                    <textarea class="form-textarea" required>This is a government purchase order from the National Library of South Africa, a reliable and established institution with excellent payment history. The PO is for essential office equipment with clear delivery timelines and payment terms. We have successfully fulfilled 5 previous orders for NLSA with timely payments.</textarea>
+                                    <div class="help-text">Explain the value proposition to potential investors</div>
+                                </div>
+                                
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label class="form-label">Supply Chain Confirmation *</label>
+                                        <select class="form-select" required>
+                                            <option value="yes" selected>Yes, I confirm I have secured supply for this order</option>
+                                            <option value="no">No, I still need to secure supply</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Smart Contract Enabled *</label>
+                                        <select class="form-select" required>
+                                            <option value="yes" selected>Yes (Recommended)</option>
+                                            <option value="no">No</option>
+                                        </select>
+                                        <div class="help-text">Enables automatic escrow protection and payment release</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Platform Fee and Terms -->
+                            <div class="form-section">
+                                <h3>Platform Fee and Terms</h3>
+                                
+                                <div class="po-info-row">
+                                    <div class="po-info-label">Platform Fee:</div>
+                                    <div class="po-info-value">2% of funded amount (R 8,040.00)</div>
+                                </div>
+                                
+                                <div class="po-info-row">
+                                    <div class="po-info-label">Fee Collection:</div>
+                                    <div class="po-info-value">Deducted from funded amount upon successful funding</div>
+                                </div>
+                                
+                                <div class="po-info-row">
+                                    <div class="po-info-label">Escrow Protection:</div>
+                                    <div class="po-info-value">Yes - Funds held until delivery confirmed</div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label class="form-checkbox">
+                                        <input type="checkbox" checked required>
+                                        I agree to ZAMONEY's platform fee of 2% (R 8,040.00) and understand it will be deducted from the funded amount
+                                    </label>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label class="form-checkbox">
+                                        <input type="checkbox" checked required>
+                                        I understand that I am responsible for repaying the total amount of R 458,280.00 to investors upon completion of this PO
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <!-- Form Buttons -->
+                            <div class="btn-container">
+                                <button type="button" class="btn btn-secondary">Back to PO Details</button>
+                                <button type="button" class="btn btn-primary">Continue to Verification</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    
+    <script>
+        // Simple JavaScript to update the return rate display
+        const returnRateSlider = document.getElementById('returnRate');
+        returnRateSlider.addEventListener('input', function() {
+            // Update the display
+            const rateValue = this.value;
+            this.nextElementSibling.nextElementSibling.textContent = rateValue + '%';
+            
+            // Update the calculation
+            const fundingAmount = 402000;
+            const returnAmount = fundingAmount * (rateValue / 100);
+            const platformFee = fundingAmount * 0.02;
+            const totalRepayment = fundingAmount + returnAmount;
+            
+            // Update the display values
+            document.querySelector('.calculator-result .result-row:nth-child(2) .result-value').textContent = 'R ' + returnAmount.toFixed(2);
+            document.querySelector('.calculator-result .result-row:nth-child(4) .result-value').textContent = 'R ' + totalRepayment.toFixed(2);
+        });
+    </script>
+</body>
+</html>
